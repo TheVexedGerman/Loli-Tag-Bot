@@ -380,7 +380,7 @@ def generateReplyStringSingle(tagResultCache):
                 elif tagResult[yuri]:
                     replyString += "FBI OPEN UP!\n\n"
                     replyString += ">Tags: yuri" + getAdditionalTags(tagResult, [yuri]) + "\n\n"
-                    replyString += "Uh, sorry for the intrusion ladies. Carry on but try to keep it down."
+                    replyString += "Uh, sorry for the intrusion ladies. Carry on but try to keep it down.\n\n"
                 # Should be at the end since it won't be wholesome otherwise.
                 elif tagResult[nonH]:
                     replyString += "FBI OPEN UP!\n\n"
