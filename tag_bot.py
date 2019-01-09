@@ -235,11 +235,13 @@ def generateReplyStringSingle(tagResultCache):
             number = result[0]
             auxiliaryTags = tagResult[0]
             # auxillary tags locations
+            # use 0,1,2 to pad additionalstringstag
             loli = 0
             dickGirlOnMale = 1
             maleOnDickGirl = 2
             soleFemale = 3
             soleDickGirl = 4
+            hitler = 5
             # normal tags
             english = 2
             mindBreak = 3
@@ -296,7 +298,12 @@ def generateReplyStringSingle(tagResultCache):
                     replyString += ">" + str(number).zfill(5) + "\n\n"
                 replyString += ">Tags: Loli\n\n"
                 # Depending on the returned results different endings are appended
-                if tagResult[mindBreak]:
+                if auxiliaryTags[hitler]:
+                    replyString += "GESTAPO ÖFFNEN SIE DIE TÜR! \n\n"
+                    replyString += ">Character: Adolf Hitler + tags: " + getAllTags(tagResult) + "\n\n"
+                    replyString += "Nein, mein Führer! \n\n"
+                    replyString += "I would do anything for Germany, but I can't let you do that."
+                elif tagResult[mindBreak]:
                     replyString += "FBI OPEN-\n\n"
                     replyString += ">Tags: mind break" + getAdditionalTags(tagResult, [mindBreak]) + "\n\n"
                     replyString += "Two nukes weren't enough\n\n"
@@ -341,13 +348,13 @@ def generateReplyStringSingle(tagResultCache):
                 elif tagResult[futa]:
                     replyString += "FBI OPEN UP!\n\n"
                     if auxiliaryTags[dickGirlOnMale]:
-                        replyString += ">Tags: futa + dickgirl on male" + getAdditionalTags(tagResult, [futa]) + "\n\n"
+                        replyString += ">Tags: futa + dickgirl on male" + getAdditionalTags(tagResult, [futa, 0]) + "\n\n"
                         replyString += "Wait, isn't this just homosexuality with extra steps?\n\n"
                     elif auxiliaryTags[maleOnDickGirl]:
-                        replyString += ">Tags: futa + male on dickgirl" + getAdditionalTags(tagResult, [futa]) + "\n\n"
+                        replyString += ">Tags: futa + male on dickgirl" + getAdditionalTags(tagResult, [futa, 0]) + "\n\n"
                         replyString += "That's not how this works. That's not how any of this works.\n\n"
                     elif auxiliaryTags[soleFemale] and auxiliaryTags[soleDickGirl]:
-                        replyString += ">Tags: futa + sole female + sole dickgirl" + getAdditionalTags(tagResult, [futa]) + "\n\n"
+                        replyString += ">Tags: futa + sole female + sole dickgirl" + getAdditionalTags(tagResult, [futa, 0, 1]) + "\n\n"
                         replyString += "Whatever, let's just book the one with the penis.\n\n"
                     else:
                         replyString += ">Tags: futa" + getAdditionalTags(tagResult, [futa]) + "\n\n"
@@ -381,6 +388,9 @@ def generateReplyStringSingle(tagResultCache):
                     replyString += "FBI OPEN UP!\n\n"
                     replyString += ">Tags: yuri" + getAdditionalTags(tagResult, [yuri]) + "\n\n"
                     replyString += "Uh, sorry for the intrusion ladies. Carry on but try to keep it down.\n\n"
+                    if not tagResult[english]:
+                        replyString += ">Language: Not English\n\n"
+                        replyString += "I'll never forgive the Japanese!"
                 # Should be at the end since it won't be wholesome otherwise.
                 elif tagResult[nonH]:
                     replyString += "FBI OPEN UP!\n\n"
@@ -394,7 +404,7 @@ def generateReplyStringSingle(tagResultCache):
                 else:
                     replyString += "FBI OPEN UP!\n\n"
                 # Add english check at the end. Ignore non-H since it doesn't fit
-                if not tagResult[english] and not tagResult[nonH]:
+                if not tagResult[english] and not tagResult[nonH] or tagResult[yuri]:
                     replyString += ">Language: Not English\n\n"
                     replyString += "Do I look like I can read moon runes? It doesn't matter what's legal on the moon, but here in 'murica we protect the lolis. Put him away boys!\n\n"
     return replyString
@@ -417,6 +427,21 @@ def getAdditionalTags(tagResult, AlreadyUsedNumbers):
         replyString += str(tagResult[1]-numberOfTrueTags) + " other tags"
     else:
         replyString += ", and " + str(tagResult[1]-numberOfTrueTags) + " other tags"
+    return replyString
+
+
+def getAllTags(tagResult):
+    currentPosition = 0
+    currentPosition = 0
+    found = False
+    replyString = ""
+    for tag in tagResult:
+        if tag and currentPosition > 2:
+            found = True
+            break
+        currentPosition += 1
+    if found:
+        replyString = stringsToTags[currentPosition] + getAdditionalTags(tagResult, [currentPosition])
     return replyString
 
 
@@ -505,6 +530,7 @@ def retrieveTags(galleryNumber):
             isSoleDickGirl = False
             isDickGirlOnMale = False
             isMaleOnDickGirl = False
+            isHitler = False
             # iterates over the parts of tags inspired by https://stackoverflow.com/questions/6386308/http-requests-and-json-parsing-in-python
             for tags in nhentaiTags['tags']:
                 # count the number of tags actually labled with tag
@@ -559,9 +585,11 @@ def retrieveTags(galleryNumber):
                     isSoleFemale = True
                 elif "sole dickgirl" in tags['name']:
                     isSoleDickGirl = True
+                elif "adolf hitler" in tags['name']:
+                    isHitler = True
             # returns all values
             # potentially replace isLoli with colleteral tags and adjust the check in tagscollection and other (unessesary) checks
-            auxiliaryTags = [isLoli, isDickGirlOnMale, isMaleOnDickGirl, isSoleFemale, isSoleDickGirl]
+            auxiliaryTags = [isLoli, isDickGirlOnMale, isMaleOnDickGirl, isSoleFemale, isSoleDickGirl, isHitler]
             return [auxiliaryTags, numberOfTags, isEnglish ,isMindBreak, isRape, isOppaiLoli, isUglyBastard, isSnuff, isShota, isGuro, isScat, isFemdom, isPregnant, isInflation, isFuta, isNonH, isUrination, isYuri, isRyona, isAsphyxiation]
 
 
