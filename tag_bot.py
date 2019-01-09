@@ -404,7 +404,7 @@ def generateReplyStringSingle(tagResultCache):
                 else:
                     replyString += "FBI OPEN UP!\n\n"
                 # Add english check at the end. Ignore non-H since it doesn't fit
-                if not tagResult[english] and not tagResult[nonH] or tagResult[yuri]:
+                if not tagResult[english] and not (tagResult[nonH] or tagResult[yuri]):
                     replyString += ">Language: Not English\n\n"
                     replyString += "Do I look like I can read moon runes? It doesn't matter what's legal on the moon, but here in 'murica we protect the lolis. Put him away boys!\n\n"
     return replyString
