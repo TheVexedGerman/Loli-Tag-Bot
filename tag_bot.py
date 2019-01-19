@@ -504,6 +504,9 @@ def retrieveTags(galleryNumber):
         galleryNumber = str(galleryNumber)
         # nhentaiTags = requests.get(API_URL+galleryNumber).json() # ['tags'] #
         request = requests.get(API_URL + str(galleryNumber))
+        # catch erounious requests
+        if request.status_code != 200:
+            return []
         nhentaiTags = json.loads(re.search(r'(?<=N.gallery\().*(?=\))', request.text).group(0))
         # catch returns for invalid numbers
         if "error" in nhentaiTags:
