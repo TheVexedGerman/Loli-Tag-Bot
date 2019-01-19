@@ -1,11 +1,11 @@
-import praw, time, requests, os, re, datetime
+import praw, time, requests, os, re, datetime, json
 
 # the API URL defined for easy finding and adjustment
-API_URL = 'https://nhentai.net/api/gallery/'
+API_URL = 'https://nhentai.net/g/'
 PARSED_SUBREDDIT = 'Animemes+anime_irl+u_Loli-Tag-Bot+u_nHentai-Tag-Bot'
 # PARSED_SUBREDDIT = 'loli_tag_bot'
 
-doNotReplyList = ['AreYouDeaf', 'HelperBot_', 'YTubeInfoBot', 'ghost_of_dongerbot', 'RemindMeBot', 'anti-gif-bot', 'Roboragi', 'shota_bot', 'sneakpeekbot', 'tweettranscriberbot', 'Random_Numbers_Bot', 'WhyNotCollegeBoard', 'nHentai-Tag-Bot']
+doNotReplyList = ['AreYouDeaf', 'HelperBot_', 'YTubeInfoBot', 'ghost_of_dongerbot', 'RemindMeBot', 'anti-gif-bot', 'Roboragi', 'shota_bot', 'sneakpeekbot', 'tweettranscriberbot', 'Random_Numbers_Bot', 'WhyNotCollegeBoard', 'nHentai-Tag-Bot', 'EFTBot']
 stringsToTags = ['','', 'english', "mind break" , 'rape', "oppai loli", "ugly bastard", 'snuff', 'shota', 'guro', 'scat', 'femdom', 'pregnant', 'inflation', 'futa', 'non-H', 'urination', 'yuri', 'ryona', 'asphyxiation']
 
 
@@ -290,6 +290,8 @@ def generateReplyStringSingle(tagResultCache):
                     #Awoo telephone song
                     replyString += "So you think that you can get away with coding the numbers in a song?\n\n"
                     replyString += "Wrong! Stop right here criminal scum!\n\n"
+                elif number == 25252:
+                    replyString += "Looks like I'll have to bust some Nico Nico Niicaps, although... \n\n"
                 # Starts all comments off the same
                 # pad number with leading zeroes if smaller than 5 digits.
                 if number >= 10000:
@@ -500,7 +502,9 @@ def retrieveTags(galleryNumber):
     if galleryNumber < 300000:
         # make galleryNumber a String for concat
         galleryNumber = str(galleryNumber)
-        nhentaiTags = requests.get(API_URL+galleryNumber).json() # ['tags'] #
+        # nhentaiTags = requests.get(API_URL+galleryNumber).json() # ['tags'] #
+        request = requests.get(API_URL + str(galleryNumber))
+        nhentaiTags = json.loads(re.search(r'(?<=N.gallery\().*(?=\))', request.text).group(0))
         # catch returns for invalid numbers
         if "error" in nhentaiTags:
             return []
