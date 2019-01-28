@@ -336,7 +336,7 @@ def generateReplyStringSingle(tagResultCache):
                     replyString += "Oh god, there is blood everywhere!\n\n"
                 elif tagResult[ryona]:
                     replyString += "FBI OPEN UP!\n\n"
-                    replyString += ">Tags: ryona" + getAdditionalTags(tagResult, [guro]) + "\n\n"
+                    replyString += ">Tags: ryona" + getAdditionalTags(tagResult, [ryona]) + "\n\n"
                     replyString += "**grabs nightstick**\n\n"
                     replyString += "Allright boys, let's give them a taste of their own medicine!"
                 elif tagResult[scat]:
