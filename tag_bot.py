@@ -2,7 +2,7 @@ import praw, time, requests, os, re, datetime, json
 
 # the API URL defined for easy finding and adjustment
 API_URL = 'https://nhentai.net/g/'
-PARSED_SUBREDDIT = 'Animemes+anime_irl+u_Loli-Tag-Bot+u_nHentai-Tag-Bot'
+PARSED_SUBREDDIT = 'anime_irl+u_Loli-Tag-Bot+u_nHentai-Tag-Bot'
 # PARSED_SUBREDDIT = 'loli_tag_bot'
 
 doNotReplyList = ['AreYouDeaf', 'HelperBot_', 'YTubeInfoBot', 'ghost_of_dongerbot', 'RemindMeBot', 'anti-gif-bot', 'Roboragi', 'shota_bot', 'sneakpeekbot', 'tweettranscriberbot', 'Random_Numbers_Bot', 'WhyNotCollegeBoard', 'nHentai-Tag-Bot', 'EFTBot']
